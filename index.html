@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proposta Digital Vision Chat | Plano Basico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0a0e2e;
+      --navy-2: #111540;
+      --navy-3: #070a22;
+      --cyan: #00d4ff;
+      --green: #00e676;
+      --royal: #3333cc;
+      --text: #e8eaf6;
+      --muted: #8891b8;
+      --white: #ffffff;
+      --line: rgba(255, 255, 255, 0.12);
+      --card: rgba(17, 21, 64, 0.82);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--navy-3);
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 10, 34, 0.72);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      width: min(1180px, calc(100% - 32px));
+      height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(0, 212, 255, 0.35);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 34% 30%, rgba(0, 230, 118, 0.35), rgba(0, 212, 255, 0.16) 38%, rgba(51, 51, 204, 0.2));
+      box-shadow: 0 0 28px rgba(0, 212, 255, 0.25);
+      color: var(--green);
+      font-size: 20px;
+    }
+
+    .brand span span { color: var(--cyan); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid rgba(0, 212, 255, 0.24);
+      border-radius: 999px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(0, 212, 255, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--green);
+      color: #001b0b;
+      box-shadow: 0 18px 42px rgba(0, 230, 118, 0.24);
+    }
+    .btn-secondary {
+      border: 1px solid rgba(0, 212, 255, 0.45);
+      background: rgba(0, 212, 255, 0.08);
+      color: var(--cyan);
+    }
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      isolation: isolate;
+      padding-top: 72px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image: url("assets/hero-basic.png");
+      background-size: cover;
+      background-position: 52% center;
+      transform: scale(1.01);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(7, 10, 34, 0.94) 0%, rgba(7, 10, 34, 0.78) 38%, rgba(7, 10, 34, 0.28) 72%, rgba(7, 10, 34, 0.44) 100%),
+        linear-gradient(0deg, rgba(7, 10, 34, 1) 0%, rgba(7, 10, 34, 0) 34%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.24;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.09) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(90deg, black, transparent 68%);
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 64px 0 46px;
+    }
+
+    .hero-content { max-width: 690px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 22px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 22px rgba(0, 230, 118, 0.7);
+    }
+
+    h1, h2, h3 { font-family: "Space Grotesk", sans-serif; letter-spacing: 0; }
+    h1 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(2.7rem, 6vw, 5.6rem);
+      line-height: 0.96;
+      max-width: 860px;
+    }
+
+    .accent { color: var(--cyan); }
+    .hero-subtitle {
+      margin: 24px 0 0;
+      max-width: 620px;
+      color: rgba(232, 234, 246, 0.86);
+      font-size: clamp(1.04rem, 1.8vw, 1.26rem);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: min(900px, 100%);
+      margin-top: 58px;
+    }
+
+    .stat {
+      min-height: 112px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 14, 46, 0.72);
+      backdrop-filter: blur(18px);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--white);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    main { background: var(--navy-3); }
+    .section {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 88px 0;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 0.72fr 1fr;
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      line-height: 1.05;
+    }
+
+    .section-lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .pain-grid, .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pain-card, .pillar-card, .price-card, .accept-card {
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .pain-card {
+      min-height: 220px;
+      padding: 24px;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      color: var(--cyan);
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.18);
+    }
+
+    .card-icon svg { width: 22px; height: 22px; }
+
+    .pain-card h3, .pillar-card h3 {
+      margin: 0 0 12px;
+      color: var(--white);
+      font-size: 22px;
+      line-height: 1.16;
+    }
+
+    .pain-card p, .pillar-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .solution-band {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(0, 212, 255, 0.1), transparent 34%),
+        radial-gradient(circle at 88% 30%, rgba(0, 230, 118, 0.08), transparent 30%),
+        var(--navy);
+      border-block: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pillar-card {
+      padding: 26px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pillar-number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      margin-bottom: 24px;
+      color: #001b0b;
+      background: var(--green);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .included {
+      margin: auto 0 0;
+      padding: 18px 0 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .included li {
+      display: flex;
+      gap: 10px;
+      color: rgba(232, 234, 246, 0.86);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .included li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex: 0 0 auto;
+      background: var(--cyan);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .compare-panel {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 8px;
+      background: rgba(17, 21, 64, 0.74);
+    }
+
+    .compare-panel header {
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-weight: 900;
+      color: var(--white);
+    }
+
+    .compare-panel.before header { color: #ffb4b4; }
+    .compare-panel.after header { color: var(--green); }
+
+    .compare-list {
+      margin: 0;
+      padding: 24px;
+      list-style: none;
+      display: grid;
+      gap: 16px;
+    }
+
+    .compare-list li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .pricing-layout {
+      display: grid;
+      grid-template-columns: 0.94fr 1.06fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      padding: 30px;
+      background:
+        linear-gradient(150deg, rgba(0, 212, 255, 0.1), transparent 34%),
+        rgba(17, 21, 64, 0.88);
+    }
+
+    .price-label {
+      margin: 0 0 14px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .price-card h3 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .price-copy {
+      margin: 18px 0 28px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .price-box {
+      min-height: 132px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(7, 10, 34, 0.58);
+    }
+
+    .price-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .price-box strong {
+      display: block;
+      margin-top: 14px;
+      color: var(--white);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .price-box small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .features-card {
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 8px;
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .features-card h3 {
+      margin: 0 0 18px;
+      color: var(--white);
+      font-size: 24px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .feature-grid li {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 12px;
+      color: rgba(232, 234, 246, 0.88);
+      font-size: 13px;
+      line-height: 1.35;
+      background: rgba(10, 14, 46, 0.55);
+    }
+
+    .feature-grid li::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--green) 0 34%, rgba(0, 230, 118, 0.2) 38% 100%);
+    }
+
+    .accept-section {
+      padding-bottom: 104px;
+      background:
+        linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.05)),
+        var(--navy-3);
+    }
+
+    .accept-card {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 28px;
+      padding: 32px;
+      background:
+        linear-gradient(135deg, rgba(0, 230, 118, 0.12), transparent 32%),
+        rgba(17, 21, 64, 0.92);
+    }
+
+    .accept-card h2 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(2rem, 3.6vw, 3.1rem);
+      line-height: 1.04;
+    }
+
+    .accept-card p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+      color: rgba(232, 234, 246, 0.78);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .field input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 8px;
+      padding: 0 14px;
+      background: rgba(7, 10, 34, 0.72);
+      color: var(--white);
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: rgba(0, 212, 255, 0.75);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12);
+    }
+
+    .accept-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 26px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .header-inner { height: 64px; }
+      .header-actions .pill { display: none; }
+      .hero {
+        min-height: auto;
+        padding-top: 64px;
+      }
+      .hero::before {
+        background-position: 58% top;
+        transform: scale(1);
+      }
+      .hero::after {
+        background:
+          linear-gradient(180deg, rgba(7, 10, 34, 0.62) 0%, rgba(7, 10, 34, 0.86) 40%, rgba(7, 10, 34, 1) 82%),
+          linear-gradient(90deg, rgba(7, 10, 34, 0.82), rgba(7, 10, 34, 0.24));
+      }
+      .hero-inner { padding: 340px 0 42px; }
+      .hero-content { max-width: 100%; }
+      .hero-stats, .pain-grid, .pillar-grid, .compare, .pricing-layout, .accept-card, .section-header {
+        grid-template-columns: 1fr;
+      }
+      .hero-stats { margin-top: 34px; }
+      .section { padding: 68px 0; }
+      .section-header { gap: 18px; }
+      .price-row, .feature-grid { grid-template-columns: 1fr; }
+      .accept-card { padding: 24px; }
+    }
+
+    @media (max-width: 560px) {
+      .header-inner { width: min(100% - 24px, 1180px); }
+      .brand { font-size: 19px; }
+      .brand-mark { width: 34px; height: 34px; }
+      .header-actions .btn { display: none; }
+      .hero-inner { width: min(100% - 24px, 1180px); padding-top: 290px; }
+      h1 { font-size: clamp(2.35rem, 14vw, 3.7rem); }
+      .hero-subtitle { font-size: 1rem; }
+      .hero-actions .btn { width: 100%; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .section { width: min(100% - 24px, 1180px); padding: 56px 0; }
+      .pain-card, .pillar-card, .price-card, .features-card { padding: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#top" class="brand" aria-label="Vision Chat">
+        <span class="brand-mark">✓</span>
+        <span>Vision<span>Chat</span></span>
+      </a>
+      <div class="header-actions">
+        <span class="pill">Plano Basico</span>
+        <a href="#aceite" class="btn btn-primary">Aceitar proposta</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="eyebrow">Proposta Digital | Plano Basico</p>
+        <h1>Sua operação comercial mais rápida, organizada e <span class="accent">inteligente</span>.</h1>
+        <p class="hero-subtitle">
+          Comece com IA, WhatsApp e Chat Site em uma estrutura simples de implantação, feita para organizar o primeiro atendimento, gerar resumos e encaminhar oportunidades com mais contexto.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#aceite">Aceitar Proposta e Iniciar</a>
+          <a class="btn btn-secondary" href="#investimento">Ver investimento</a>
+        </div>
+      </div>
+
+      <div class="hero-stats" aria-label="Resumo do plano">
+        <div class="stat">
+          <strong>R$ 329,99</strong>
+          <span>mensalidade do Plano Basico conforme site Vision Chat</span>
+        </div>
+        <div class="stat">
+          <strong>R$ 1.490,99</strong>
+          <span>setup inicial para configuracao e onboarding basico</span>
+        </div>
+        <div class="stat">
+          <strong>IA + Canais</strong>
+          <span>Agente IA Generativa basico, WhatsApp e Chat Site</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="section" id="diagnostico">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">01 | Diagnostico</p>
+          <h2 class="section-title">Por que estamos aqui?</h2>
+        </div>
+        <p class="section-lead">
+          Pequenas empresas perdem oportunidades quando o atendimento depende de improviso. A proposta do Plano Basico e organizar o começo da operação, com IA e canais digitais trabalhando a favor do time.
+        </p>
+      </div>
+
+      <div class="pain-grid">
+        <article class="pain-card">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+          <h3>Leads esfriam rápido</h3>
+          <p>Quando o primeiro contato demora, o momento de compra perde força e a oportunidade pode ir para quem respondeu antes.</p>
+        </article>
+        <article class="pain-card">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+          </div>
+          <h3>Conversas ficam espalhadas</h3>
+          <p>WhatsApp, site e anotações soltas dificultam continuidade, padrao de resposta e visao clara do que precisa de retorno.</p>
+        </article>
+        <article class="pain-card">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg>
+          </div>
+          <h3>Falta contexto para decidir</h3>
+          <p>Sem resumo e encaminhamento claro, a equipe gasta energia entendendo o caso antes de realmente avançar.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="solution-band">
+      <div class="section" id="solucao">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">02 | Solucao</p>
+            <h2 class="section-title">O ecossistema em 3 pilares.</h2>
+          </div>
+          <p class="section-lead">
+            O Plano Basico concentra o essencial para iniciar com IA de forma objetiva: atendimento, automação inicial e uma implantação leve para colocar a operação em movimento.
+          </p>
+        </div>
+
+        <div class="pillar-grid">
+          <article class="pillar-card">
+            <span class="pillar-number">1</span>
+            <h3>Atendimento & Canais</h3>
+            <p>Receba e organize contatos vindos de WhatsApp e Chat Site com atendimento humanizado e uma plataforma multipropositos.</p>
+            <ul class="included">
+              <li>WhatsApp + Chat Site</li>
+              <li>Atendimento humanizado</li>
+              <li>Plataforma multipropositos</li>
+            </ul>
+          </article>
+          <article class="pillar-card">
+            <span class="pillar-number">2</span>
+            <h3>IA & Rotina Comercial</h3>
+            <p>Use IA para apoiar respostas iniciais, organizar contexto e gerar resumo para que o humano assuma com mais clareza.</p>
+            <ul class="included">
+              <li>Agente IA Generativa basico</li>
+              <li>Resumo do atendimento</li>
+              <li>Encaminhamento de resumo</li>
+            </ul>
+          </article>
+          <article class="pillar-card">
+            <span class="pillar-number">3</span>
+            <h3>Implantação & Suporte</h3>
+            <p>Comece com uma configuração simples, treinamento objetivo e suporte comercial para reduzir atrito na adoção.</p>
+            <ul class="included">
+              <li>Personalizacao basica</li>
+              <li>Treinamento via link, documento e videos</li>
+              <li>SAC WhatsApp e onboarding basico</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="futuro">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">03 | Cenario futuro</p>
+          <h2 class="section-title">Antes vs. Depois.</h2>
+        </div>
+        <p class="section-lead">
+          A mudança esperada não é prometer resultado mágico. É criar mais velocidade, organização e contexto para o time responder melhor.
+        </p>
+      </div>
+
+      <div class="compare">
+        <article class="compare-panel before">
+          <header>Antes</header>
+          <ul class="compare-list">
+            <li>Atendimento manual e dependente da disponibilidade imediata da equipe.</li>
+            <li>Conversas espalhadas entre canais, com perda de histórico e contexto.</li>
+            <li>Lead chega, pergunta, espera e pode perder interesse antes do retorno.</li>
+          </ul>
+        </article>
+        <article class="compare-panel after">
+          <header>Depois</header>
+          <ul class="compare-list">
+            <li>IA apoia o primeiro atendimento e ajuda a manter uma resposta mais ágil.</li>
+            <li>WhatsApp e Chat Site entram na mesma lógica de organização operacional.</li>
+            <li>Resumo e encaminhamento deixam o time humano com mais contexto para avançar.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="investimento">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">04 | Condicoes comerciais</p>
+          <h2 class="section-title">Plano Basico Vision Chat.</h2>
+        </div>
+        <p class="section-lead">
+          Oferta indicada para pequenas empresas iniciando com IA, com uma entrada objetiva no ecossistema Vision Chat.
+        </p>
+      </div>
+
+      <div class="pricing-layout">
+        <article class="price-card">
+          <p class="price-label">Essencial</p>
+          <h3>Plano Basico</h3>
+          <p class="price-copy">Estrutura inicial para organizar atendimento, ativar IA Generativa basica e conectar WhatsApp + Chat Site com suporte de implantação.</p>
+          <div class="price-row">
+            <div class="price-box">
+              <span>Mensalidade</span>
+              <strong>R$ 329,99</strong>
+              <small>por mês</small>
+            </div>
+            <div class="price-box">
+              <span>Setup</span>
+              <strong>R$ 1.490,99</strong>
+              <small>implantação inicial</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="features-card">
+          <h3>Incluso nesta proposta</h3>
+          <ul class="feature-grid">
+            <li>Agente IA Generativa basico</li>
+            <li>Atendimento humanizado</li>
+            <li>Resumo do atendimento</li>
+            <li>Encaminhamento de resumo</li>
+            <li>Plataforma multipropositos</li>
+            <li>WhatsApp + Chat Site</li>
+            <li>Personalizacao basica</li>
+            <li>Suporte comercial</li>
+            <li>Treinamento via link, documento e videos</li>
+            <li>SAC WhatsApp e onboarding basico</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="accept-section" id="aceite">
+      <div class="section">
+        <div class="accept-card">
+          <div>
+            <p class="section-kicker">05 | Aceite digital</p>
+            <h2>Dar aceite na proposta.</h2>
+            <p>
+              Ao confirmar, sua empresa sinaliza interesse na contratação do Plano Basico Vision Chat conforme os valores e inclusões apresentados nesta proposta digital.
+            </p>
+          </div>
+          <form>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Nome completo</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Seu nome" />
+              </div>
+              <div class="field">
+                <label for="company">Empresa</label>
+                <input id="company" name="company" autocomplete="organization" placeholder="Nome da empresa" />
+              </div>
+              <div class="field">
+                <label for="document">CPF/CNPJ</label>
+                <input id="document" name="document" placeholder="000.000.000-00" />
+              </div>
+              <div class="field">
+                <label for="phone">Telefone</label>
+                <input id="phone" name="phone" autocomplete="tel" placeholder="(00) 00000-0000" />
+              </div>
+              <div class="field full">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" autocomplete="email" placeholder="voce@empresa.com.br" />
+              </div>
+            </div>
+            <p class="accept-note">Protótipo visual: o envio do aceite ainda não está conectado a webhook, contrato ou assinatura digital.</p>
+            <div style="margin-top:18px;">
+              <button type="button" class="btn btn-primary" style="width:100%;">Dar o Aceite na Proposta</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Vision Chat | Proposta Digital Plano Basico | Valores alinhados ao site publico em 25/06/2026
+  </footer>
+</body>
+</html>
