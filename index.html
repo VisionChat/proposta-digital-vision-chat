@@ -70,12 +70,13 @@
     }
 
     .brand-name {
-      display: inline-grid;
-      gap: 0;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 5px;
       font-family: "Space Grotesk", sans-serif;
       font-weight: 800;
       letter-spacing: 0;
-      line-height: 0.86;
+      line-height: 1;
       filter: drop-shadow(0 0 14px rgba(0, 212, 255, 0.18));
     }
 
@@ -86,8 +87,8 @@
 
     .brand-name .chat {
       color: var(--cyan);
-      font-size: 22px;
-      font-weight: 500;
+      font-size: 26px;
+      font-weight: 800;
     }
 
     .header-actions {
@@ -698,7 +699,7 @@
       .brand { gap: 8px; }
       .brand-logo { width: 36px; height: 36px; }
       .brand-name .vision { font-size: 22px; }
-      .brand-name .chat { font-size: 19px; }
+      .brand-name .chat { font-size: 22px; }
       .header-actions .btn { display: none; }
       .hero::before { background-position: 56% top; }
       .hero-inner { width: min(100% - 24px, 1180px); padding-top: 228px; }
