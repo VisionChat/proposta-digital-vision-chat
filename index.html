@@ -648,7 +648,7 @@
           linear-gradient(180deg, rgba(7, 10, 34, 0.62) 0%, rgba(7, 10, 34, 0.86) 40%, rgba(7, 10, 34, 1) 82%),
           linear-gradient(90deg, rgba(7, 10, 34, 0.82), rgba(7, 10, 34, 0.24));
       }
-      .hero-inner { padding: 340px 0 42px; }
+      .hero-inner { padding: 300px 0 42px; }
       .hero-content { max-width: 100%; }
       .hero-stats, .pain-grid, .pillar-grid, .compare, .pricing-layout, .accept-card, .section-header {
         grid-template-columns: 1fr;
@@ -665,9 +665,23 @@
       .brand { font-size: 19px; }
       .brand-mark { width: 34px; height: 34px; }
       .header-actions .btn { display: none; }
-      .hero-inner { width: min(100% - 24px, 1180px); padding-top: 290px; }
-      h1 { font-size: clamp(2.35rem, 14vw, 3.7rem); }
-      .hero-subtitle { font-size: 1rem; }
+      .hero::before { background-position: 56% top; }
+      .hero-inner { width: min(100% - 24px, 1180px); padding-top: 228px; }
+      h1 {
+        font-size: clamp(2rem, 10.8vw, 2.8rem);
+        line-height: 1.03;
+      }
+      .eyebrow {
+        margin-bottom: 16px;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+      }
+      .hero-subtitle {
+        margin-top: 18px;
+        font-size: 0.98rem;
+        line-height: 1.58;
+      }
+      .hero-actions { margin-top: 24px; }
       .hero-actions .btn { width: 100%; }
       .hero-stats { grid-template-columns: 1fr; }
       .section { width: min(100% - 24px, 1180px); padding: 56px 0; }
