@@ -69,11 +69,25 @@
       filter: drop-shadow(0 0 16px rgba(0, 212, 255, 0.34));
     }
 
-    .brand-wordmark {
-      width: auto;
-      height: 38px;
-      object-fit: contain;
+    .brand-name {
+      display: inline-grid;
+      gap: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 0.86;
       filter: drop-shadow(0 0 14px rgba(0, 212, 255, 0.18));
+    }
+
+    .brand-name .vision {
+      color: var(--white);
+      font-size: 26px;
+    }
+
+    .brand-name .chat {
+      color: var(--cyan);
+      font-size: 22px;
+      font-weight: 500;
     }
 
     .header-actions {
@@ -683,7 +697,8 @@
       .header-inner { width: min(100% - 24px, 1180px); }
       .brand { gap: 8px; }
       .brand-logo { width: 36px; height: 36px; }
-      .brand-wordmark { height: 31px; }
+      .brand-name .vision { font-size: 22px; }
+      .brand-name .chat { font-size: 19px; }
       .header-actions .btn { display: none; }
       .hero::before { background-position: 56% top; }
       .hero-inner { width: min(100% - 24px, 1180px); padding-top: 228px; }
@@ -715,7 +730,10 @@
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="Vision Chat">
         <img class="brand-logo" src="assets/vision-chat-logo.png" alt="" width="44" height="44" />
-        <img class="brand-wordmark" src="assets/vision-chat-wordmark.png" alt="Vision Chat" width="330" height="184" />
+        <span class="brand-name" aria-hidden="true">
+          <span class="vision">Vision</span>
+          <span class="chat">Chat</span>
+        </span>
       </a>
       <div class="header-actions">
         <span class="pill">Plano Basico</span>
